@@ -1,0 +1,1617 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<title>Музей Камней</title>
+<meta name="theme-color" content="#0e1015">
+<style>:root{
+  --bg:#0b0d12; --bg2:#12151d; --card:#171b25; --card2:#1d222e; --line:#2a3040;
+  --txt:#e9edf6; --dim:#8b95ab; --acc:#ffc94a; --acc2:#f0a020; --green:#4bd66f; --red:#ff5f5f;
+  --blue:#5aa9ff; --purple:#b07cff; --saph:#3a7bff; --ruby:#ff4d6a; --dia:#9fe8ff;
+  --rad:16px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;height:100%}
+body{
+  background:
+    radial-gradient(900px 600px at 15% -10%, #1d2740 0%, transparent 60%),
+    radial-gradient(700px 500px at 100% 0%, #2a1d33 0%, transparent 55%),
+    var(--bg);
+  color:var(--txt); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;
+  overscroll-behavior:none; user-select:none;
+}
+.app{max-width:520px;margin:0 auto;padding-bottom:86px;min-height:100vh;position:relative}
+/* ---------- header ---------- */
+#hdr{position:sticky;top:0;z-index:30;backdrop-filter:blur(14px);background:rgba(11,13,18,.82);
+  border-bottom:1px solid var(--line);padding:8px 12px 9px}
+.hrow{display:flex;align-items:center;gap:8px}
+.who{display:flex;align-items:center;gap:8px;min-width:0;flex:1}
+.ava{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#2b3348,#161a24);
+  display:grid;place-items:center;font-size:17px;border:1px solid var(--line);flex:none}
+.who .nm{font-weight:700;font-size:13.5px;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.who .rk{font-size:11px;color:var(--dim)}
+.cur{display:flex;gap:6px;flex:none}
+.pill{display:flex;align-items:center;gap:4px;background:#0f131c;border:1px solid var(--line);
+  border-radius:11px;padding:5px 8px;font-size:12.5px;font-weight:700;font-variant-numeric:tabular-nums}
+.pill.coin{border-color:#5a4a1e;background:linear-gradient(180deg,#231d10,#15120b);color:#ffd76b}
+.xpbar{height:4px;background:#0b0e14;border-radius:4px;margin-top:7px;overflow:hidden}
+.xpbar>i{display:block;height:100%;background:linear-gradient(90deg,#6aa9ff,#b07cff);border-radius:4px;transition:width .35s}
+/* ---------- screens ---------- */
+main{padding:12px 12px 8px;animation:fade .22s ease}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.h1{font-size:19px;font-weight:800;margin:2px 0 10px;display:flex;align-items:center;gap:8px}
+.h1 small{font-size:11px;font-weight:600;color:var(--dim);margin-left:auto}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--rad);padding:12px;margin-bottom:10px}
+.card.tight{padding:10px}
+.row{display:flex;align-items:center;gap:10px}
+.between{display:flex;align-items:center;justify-content:space-between;gap:10px}
+.col{display:flex;flex-direction:column;gap:3px}
+.dim{color:var(--dim)}
+.f11{font-size:11px}.f12{font-size:12px}.f13{font-size:13px}.f14{font-size:14px}.f16{font-size:16px}
+.b{font-weight:800}.num{font-variant-numeric:tabular-nums}
+/* buttons */
+button{font-family:inherit;border:0;cursor:pointer;color:inherit}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;background:#232a39;border:1px solid #333c50;
+  border-radius:12px;padding:10px 14px;font-size:13.5px;font-weight:700;transition:transform .08s,filter .15s}
+.btn:active{transform:scale(.97)}
+.btn:disabled{opacity:.42;filter:grayscale(.4)}
+.btn.primary{background:linear-gradient(180deg,#ffcf5c,#f0a020);border-color:#ffe08a;color:#20180a;box-shadow:0 4px 0 #a86c05}
+.btn.primary:active{box-shadow:0 1px 0 #a86c05;transform:translateY(2px)}
+.btn.green{background:linear-gradient(180deg,#5ce27f,#2fae55);border-color:#8df0a7;color:#08210f;box-shadow:0 4px 0 #1a6f36}
+.btn.blue{background:linear-gradient(180deg,#6bb5ff,#2f7fdd);border-color:#9fd0ff;color:#04121f;box-shadow:0 4px 0 #1b5aa0}
+.btn.purple{background:linear-gradient(180deg,#c79bff,#8b4ce0);border-color:#dcc0ff;color:#150a26;box-shadow:0 4px 0 #5a2f96}
+.btn.ghost{background:#141925;border-color:#2b3242;color:var(--txt)}
+.btn.red{background:linear-gradient(180deg,#ff7b7b,#d33b3b);border-color:#ffb3b3;color:#2a0808;box-shadow:0 4px 0 #8f2020}
+.btn.sm{padding:7px 10px;font-size:12px;border-radius:10px}
+.btn.wide{width:100%}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+/* ---------- nav ---------- */
+#nav{position:fixed;bottom:0;left:0;right:0;z-index:40;display:flex;justify-content:space-around;
+  background:rgba(13,16,22,.94);backdrop-filter:blur(16px);border-top:1px solid var(--line);
+  padding:6px 4px calc(6px + env(safe-area-inset-bottom));max-width:520px;margin:0 auto}
+#nav button{flex:1;background:none;display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:5px 0;font-size:9.5px;font-weight:700;color:#6f7a90;border-radius:10px;position:relative}
+#nav button i{font-size:19px;line-height:1;font-style:normal;filter:grayscale(.6) opacity(.75)}
+#nav button.on{color:var(--acc)}
+#nav button.on i{filter:none;transform:translateY(-1px)}
+#nav .badge{position:absolute;top:2px;right:calc(50% - 20px);background:var(--red);color:#fff;font-size:9px;
+  min-width:15px;height:15px;border-radius:8px;display:grid;place-items:center;padding:0 3px;font-weight:800}
+/* ---------- mine scene ---------- */
+.scene{position:relative;height:224px;border-radius:18px;overflow:hidden;border:1px solid #2b3345;
+  background:linear-gradient(180deg,#0d1420 0%,#0a0f18 45%,#141a26 100%);margin-bottom:10px}
+.wall{position:absolute;inset:0;background-image:
+   radial-gradient(circle at 20% 30%, rgba(90,120,180,.16) 0 2px, transparent 2px),
+   radial-gradient(circle at 70% 60%, rgba(90,120,180,.14) 0 2px, transparent 2px),
+   radial-gradient(circle at 45% 80%, rgba(90,120,180,.1) 0 2px, transparent 2px);
+   background-size:70px 70px,90px 90px,60px 60px}
+.floor{position:absolute;left:0;right:0;bottom:0;height:52px;background:linear-gradient(180deg,#1b2130,#0f131c);
+  border-top:1px solid #2b3345}
+.rock-wrap{position:absolute;left:50%;top:50%;transform:translate(-50%,-56%);text-align:center}
+.rock{font-size:76px;line-height:1;filter:drop-shadow(0 10px 18px rgba(0,0,0,.6));transition:transform .07s}
+.rock.hit{transform:translate(2px,-4px) scale(.95) rotate(-4deg)}
+.hpbar{width:130px;height:9px;border-radius:6px;background:#0a0d14;border:1px solid #2b3345;overflow:hidden;margin:8px auto 0}
+.hpbar>i{display:block;height:100%;background:linear-gradient(90deg,#ffb648,#ff5f5f);transition:width .1s}
+.miner{position:absolute;bottom:34px;left:50%;transform:translateX(-50%);font-size:40px;z-index:0;
+  animation:swing 1.1s ease-in-out infinite}
+@keyframes swing{0%,100%{transform:translateX(-50%) rotate(-6deg)}50%{transform:translateX(-50%) rotate(8deg)}}
+.scene .topleft{position:absolute;left:10px;top:10px;display:flex;flex-direction:column;gap:5px;z-index:5}
+.tag{background:rgba(9,12,18,.78);border:1px solid #2b3345;border-radius:9px;padding:4px 8px;font-size:11px;font-weight:700}
+.tag.crit{border-color:#ffb648;color:#ffcf5c}
+.combo{position:absolute;right:10px;top:10px;z-index:5;font-weight:900;font-size:15px;color:#ffcf5c;text-shadow:0 2px 8px #000}
+.floater{position:absolute;left:50%;top:36%;font-weight:900;font-size:19px;color:#fff;pointer-events:none;
+  text-shadow:0 2px 10px #000;animation:floatUp .85s ease-out forwards;z-index:6}
+@keyframes floatUp{0%{opacity:1;transform:translate(-50%,0) scale(.8)}30%{transform:translate(-50%,-22px) scale(1.15)}
+  100%{opacity:0;transform:translate(-50%,-58px) scale(1)}}
+/* hitsplat / item icons */
+.gem{width:38px;height:38px;border-radius:10px;display:grid;place-items:center;font-size:20px;
+  background:#121722;border:1px solid #2b3345;flex:none}
+.r-common{box-shadow:inset 0 0 12px rgba(150,170,200,.18)}
+.r-uncommon{border-color:#3f8f4f;box-shadow:inset 0 0 12px rgba(75,214,111,.25)}
+.r-rare{border-color:#3a63b0;box-shadow:inset 0 0 12px rgba(90,169,255,.28)}
+.r-epic{border-color:#7b48c8;box-shadow:inset 0 0 14px rgba(176,124,255,.32)}
+.r-legend{border-color:#b98b1e;box-shadow:inset 0 0 15px rgba(255,201,74,.35)}
+.r-myth{border-color:#2f9fc0;box-shadow:inset 0 0 16px rgba(159,232,255,.4)}
+/* tabs */
+.tabs{display:flex;gap:6px;margin-bottom:10px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:none;background:#141925;border:1px solid #2b3242;border-radius:11px;padding:8px 12px;
+  font-size:12.5px;font-weight:700;color:var(--dim)}
+.tabs button.on{background:linear-gradient(180deg,#2b3446,#202634);color:var(--txt);border-color:#41506b}
+/* pickaxe dmg */
+.dmg{color:#ffcf5c;font-weight:800}
+.chip{display:inline-flex;align-items:center;gap:4px;border-radius:8px;padding:2px 7px;font-size:11px;font-weight:700;
+  background:#0f131c;border:1px solid var(--line)}
+.bar{height:7px;border-radius:5px;background:#0a0d14;border:1px solid #232a39;overflow:hidden}
+.bar>i{display:block;height:100%;background:linear-gradient(90deg,#5ce27f,#2fae55)}
+/* modal */
+.modal{position:fixed;inset:0;z-index:90;background:rgba(4,6,10,.72);backdrop-filter:blur(4px);
+  display:flex;align-items:flex-end;justify-content:center;padding:0;animation:fade .18s}
+.modal.hidden{display:none}
+.sheet{width:100%;max-width:520px;max-height:86vh;overflow:auto;background:var(--bg2);
+  border:1px solid var(--line);border-bottom:0;border-radius:20px 20px 0 0;padding:16px 14px calc(18px + env(safe-area-inset-bottom));
+  animation:slideUp .24s cubic-bezier(.2,.9,.3,1)}
+@keyframes slideUp{from{transform:translateY(60px);opacity:.4}to{transform:none;opacity:1}}
+.sheet h3{margin:0 0 4px;font-size:17px}
+.sheet .sh-head{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px}
+.close{background:#1b2130;border:1px solid var(--line);width:30px;height:30px;border-radius:9px;font-size:15px;flex:none}
+/* toasts */
+.toasts{position:fixed;left:0;right:0;bottom:96px;z-index:95;display:flex;flex-direction:column;
+  align-items:center;gap:6px;pointer-events:none;padding:0 14px}
+.toast{background:rgba(20,25,36,.96);border:1px solid #3a4460;border-radius:12px;padding:8px 14px;font-size:12.5px;
+  font-weight:700;box-shadow:0 8px 24px rgba(0,0,0,.5);animation:tin .25s ease;max-width:100%}
+.toast.good{border-color:#3f8f4f}.toast.bad{border-color:#8f3f3f}.toast.gold{border-color:#b98b1e;color:#ffd76b}
+@keyframes tin{from{transform:translateY(8px);opacity:0}to{transform:none;opacity:1}}
+/* leaderboard */
+.lb{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #1f2532}
+.lb:last-child{border-bottom:0}
+.lb .pos{width:24px;text-align:center;font-weight:900;color:var(--dim);font-size:13px}
+.lb .pos.p1{color:#ffd75e}.lb .pos.p2{color:#cfd8e8}.lb .pos.p3{color:#e0a06a}
+.lb.me{background:rgba(255,201,74,.07);margin:0 -8px;padding:9px 8px;border-radius:10px;border-bottom-color:transparent}
+.lb .nm{flex:1;font-size:13px;font-weight:700;min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb .vl{font-size:12.5px;font-weight:800;color:#ffd76b}
+/* arena */
+.fightbox{display:grid;grid-template-columns:1fr 40px 1fr;gap:6px;align-items:center}
+.fighter{text-align:center;background:#121722;border:1px solid var(--line);border-radius:14px;padding:10px 6px}
+.fighter .em{font-size:34px;line-height:1}
+.vs{text-align:center;font-weight:900;color:var(--acc);font-size:13px}
+.log{background:#0b0e14;border:1px solid var(--line);border-radius:12px;padding:9px;font-size:11.5px;
+  line-height:1.6;max-height:150px;overflow:auto;font-family:ui-monospace,Menlo,monospace;color:#b9c4d8}
+/* map tiles */
+.map{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.tile{aspect-ratio:1;border-radius:11px;border:1px solid var(--line);background:#121722;display:flex;
+  flex-direction:column;align-items:center;justify-content:center;gap:2px;font-size:9.5px;font-weight:700;
+  color:var(--dim);position:relative;overflow:hidden}
+.tile.owned{background:linear-gradient(180deg,rgba(90,169,255,.18),rgba(90,169,255,.05));border-color:#3a63b0;color:#cfe3ff}
+.tile.mine{background:linear-gradient(180deg,rgba(255,201,74,.16),rgba(255,201,74,.04));border-color:#b98b1e;color:#ffe6a8}
+.tile i{font-size:17px;font-style:normal}
+.tile small{position:absolute;bottom:2px;font-size:8px;color:#7f8aa0}
+/* shop */
+.shopitem{display:flex;gap:10px;align-items:center;padding:10px;border:1px solid var(--line);
+  border-radius:13px;background:#121722;margin-bottom:8px}
+.shopitem.owned{border-color:#3f8f4f;background:linear-gradient(180deg,rgba(75,214,111,.08),#121722)}
+.shopitem .info{flex:1;min-width:0}
+.shopitem .info .t{font-size:13px;font-weight:800}
+.shopitem .info .d{font-size:11px;color:var(--dim);margin-top:2px;line-height:1.35}
+.price{display:flex;align-items:center;gap:3px;font-size:12px;font-weight:800;color:#ffd76b}
+.price.no{color:#7f8aa0}
+/* misc */
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+.center{text-align:center}
+.mt6{margin-top:6px}.mt10{margin-top:10px}.mb0{margin-bottom:0}
+.hint{font-size:11px;color:var(--dim);line-height:1.5}
+.sep{height:1px;background:var(--line);margin:10px 0}
+.pulse{animation:pulse 1.6s ease-in-out infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.55}}
+.goldline{background:linear-gradient(90deg,transparent,#b98b1e,transparent);height:1px;margin:8px 0}
+
+/* ---------- полировка ---------- */
+@media (max-width:400px){
+  .pill{padding:4px 6px;font-size:11.5px}
+  .who .nm{font-size:12.5px}
+  .ava{width:30px;height:30px;font-size:15px}
+  .rock{font-size:66px}
+  .scene{height:206px}
+}
+.scene.shake{animation:shake .18s}
+@keyframes shake{0%,100%{transform:none}25%{transform:translate(-3px,1px)}75%{transform:translate(3px,-2px)}}
+.spark{position:absolute;width:6px;height:6px;border-radius:2px;pointer-events:none;z-index:7}
+@keyframes sparkOut{from{opacity:1;transform:translate(0,0) scale(1)}to{opacity:0;transform:translate(var(--dx),var(--dy)) scale(.3)}}
+.critflash{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,201,74,.45),transparent 60%);
+  pointer-events:none;animation:flashOut .35s ease-out forwards;z-index:6}
+@keyframes flashOut{from{opacity:1}to{opacity:0}}
+.expo{display:flex;align-items:center;gap:8px;padding:7px 0;border-bottom:1px solid #1f2532}
+.expo:last-child{border-bottom:0}
+.tut{font-size:12.5px;line-height:1.55;color:#c6cfe0}
+.tut b{color:#ffd76b}
+.step{display:flex;gap:9px;padding:8px 0;border-bottom:1px solid #1f2532}
+.step:last-child{border-bottom:0}
+.step .n{width:22px;height:22px;border-radius:50%;background:#232a39;color:#ffd76b;font-size:11px;
+  font-weight:800;display:grid;place-items:center;flex:none;margin-top:1px}
+</style>
+</head>
+<body>
+<div class="app">
+  <header id="hdr"></header>
+  <main id="screen"></main>
+  <nav id="nav"></nav>
+</div>
+<div id="fx"></div>
+<div id="modal" class="modal hidden"></div>
+<div id="toasts" class="toasts"></div>
+<script>/* ============================================================
+   МУЗЕЙ КАМНЕЙ — данные игры
+   ============================================================ */
+
+const RARITY = {
+  common:   { n: 'обычный',    cls: 'r-common' },
+  uncommon: { n: 'необычный',  cls: 'r-uncommon' },
+  rare:     { n: 'редкий',     cls: 'r-rare' },
+  epic:     { n: 'эпический',  cls: 'r-epic' },
+  legend:   { n: 'легендарный',cls: 'r-legend' },
+  myth:     { n: 'мифический',  cls: 'r-myth' }
+};
+
+/* ---- камни и руды ---- */
+const ITEMS = {
+  stone:    { n: 'Булыжник',  i: '🪨', p: 14,      r: 'common' },
+  coal:     { n: 'Уголь',     i: '⬛', p: 38,      r: 'common' },
+  copper:   { n: 'Медь',      i: '🟠', p: 75,      r: 'uncommon' },
+  iron:     { n: 'Железо',    i: '⚙️', p: 130,     r: 'uncommon' },
+  silver:   { n: 'Серебро',   i: '⚪', p: 320,     r: 'uncommon' },
+  gold:     { n: 'Золото',    i: '🟡', p: 850,     r: 'rare' },
+  topaz:    { n: 'Топаз',     i: '🔶', p: 1300,    r: 'rare' },
+  jade:     { n: 'Нефрит',    i: '🟢', p: 2000,    r: 'rare' },
+  amethyst: { n: 'Аметист',   i: '🟣', p: 3400,    r: 'epic' },
+  emerald:  { n: 'Изумруд',   i: '💚', p: 8200,    r: 'epic' },
+  ruby:     { n: 'Рубин',     i: '♦️', p: 10000,   r: 'legend' },
+  sapphire: { n: 'Сапфир',    i: '🔹', p: 50000,   r: 'myth' },
+  diamond:  { n: 'Алмаз',     i: '💎', p: 100000,  r: 'myth' }
+};
+
+/* шансы редких камней на каждом разбитом камне.
+   Базовые значения — как задумал автор: рубин 5%, сапфир 1%, алмаз 0.1%.
+   На глубине (шахты m6-m7) они работают полностью, в старом карьере — сильно слабее,
+   иначе новичок вытаскивал бы рубин каждые 20 камней и ломал экономику. */
+const LUCKY = [
+  { id: 'ruby',     chance: 0.05  },
+  { id: 'sapphire', chance: 0.01  },
+  { id: 'diamond',  chance: 0.001 }
+];
+const LUCKY_BY_MINE = { m1: 0.12, m2: 0.28, m3: 0.45, m4: 0.65, m5: 0.85, m6: 1.0, m7: 1.25 };
+
+/* ---- шахты ---- */
+const MINES = [
+  { id: 'm1', n: 'Старый карьер',    e: '⛏️', hp: 28,   money: 70,     xp: 10,   cost: 0,
+    ores: { stone: 0.58, coal: 0.27, copper: 0.10, iron: 0.05 } },
+  { id: 'm2', n: 'Медный рудник',    e: '🪙', hp: 75,   money: 280,    xp: 22,  cost: 3000,
+    ores: { coal: 0.34, copper: 0.32, iron: 0.24, silver: 0.08, gold: 0.02 } },
+  { id: 'm3', n: 'Серебряная шахта', e: '🥈', hp: 170,  money: 900,    xp: 45,  cost: 16000,
+    ores: { iron: 0.30, silver: 0.32, gold: 0.20, topaz: 0.13, jade: 0.05 } },
+  { id: 'm4', n: 'Изумрудный грот',  e: '💚', hp: 360,  money: 2600,   xp: 80,  cost: 70000,
+    ores: { silver: 0.24, gold: 0.26, topaz: 0.22, jade: 0.16, emerald: 0.12 } },
+  { id: 'm5', n: 'Рубиновые копи',   e: '♦️', hp: 700,  money: 7000,   xp: 145, cost: 260000,
+    ores: { gold: 0.22, topaz: 0.24, jade: 0.24, amethyst: 0.18, emerald: 0.12 } },
+  { id: 'm6', n: 'Сапфировая бездна',e: '🔹', hp: 1300, money: 18000,  xp: 260, cost: 900000,
+    ores: { jade: 0.20, amethyst: 0.34, emerald: 0.34, topaz: 0.12 } },
+  { id: 'm7', n: 'Алмазный кряж',    e: '💎', hp: 2400, money: 45000,  xp: 430, cost: 3500000,
+    ores: { amethyst: 0.32, emerald: 0.38, ruby: 0.30 } }
+];
+
+/* ---- кирки ---- */
+const PICKS = [
+  { id: 'p1', n: 'Деревянная кирка',   i: '🥢', dmg: 4,  bonus: 1.00, crit: 0.02, cost: 0,     req: {} },
+  { id: 'p2', n: 'Каменная кирка',     i: '🔨', dmg: 7,  bonus: 1.15, crit: 0.03, cost: 900,   req: { stone: 30, coal: 20 } },
+  { id: 'p3', n: 'Железная кирка',     i: '⛏️', dmg: 12, bonus: 1.35, crit: 0.05, cost: 5000,  req: { iron: 25, copper: 35 } },
+  { id: 'p4', n: 'Стальная кирка',     i: '⚒️', dmg: 19, bonus: 1.60, crit: 0.07, cost: 30000, req: { iron: 120, silver: 40 } },
+  { id: 'p5', n: 'Мифриловая кирка',   i: '🛠️', dmg: 30, bonus: 1.90, crit: 0.10, cost: 120000,req: { silver: 90, gold: 40, topaz: 10 } },
+  { id: 'p6', n: 'Кирка из бездны',    i: '🌌', dmg: 46, bonus: 2.25, crit: 0.14, cost: 400000,req: { jade: 40, amethyst: 20, emerald: 8 } },
+  { id: 'p7', n: 'Алмазная кирка',     i: '💠', dmg: 70, bonus: 2.70, crit: 0.18, cost: 0,     req: { diamond: 3, ruby: 10 } }
+];
+
+/* ---- оружие и броня (за игровую валюту) ---- */
+const GEAR = [
+  { id: 'w1', t: 'w', n: 'Ржавый меч',        i: '🗡', atk: 8,   price: 900,     desc: 'Достался от деда-шахтёра.' },
+  { id: 'w2', t: 'w', n: 'Стальной меч',      i: '⚔️', atk: 18,  price: 6000,    desc: 'Надёжный клинок стража.' },
+  { id: 'w3', t: 'w', n: 'Клинок шахтёра',    i: '🔪', atk: 30,  price: 24000,   desc: 'Закалён в горне карьера.' },
+  { id: 'a1', t: 'a', n: 'Кожаный жилет',     i: '🥋', def: 6,   price: 800,     desc: 'Хоть что-то.' },
+  { id: 'a2', t: 'a', n: 'Кольчуга',          i: '🛡', def: 15,  price: 5200,    desc: 'Звенит, но держит удар.' },
+  { id: 'a3', t: 'a', n: 'Стальные латы',     i: '🛡️', def: 28,  price: 22000,   desc: 'Тяжёлые, зато надёжные.' },
+  { id: 'a4', t: 'a', n: 'Латы музейной стражи', i: '🏛', def: 45, price: 60000, desc: 'Форма хранителей музея.' }
+];
+
+/* ---- донат-магазин (коины) ---- */
+const SHOP = [
+  { id: 'c1',  cat: 'coin', n: 'Горсть коинов',   i: '🪙', coins: 25,   price: '25 ₽', desc: 'Стартовый набор пополнения.' },
+  { id: 'c2',  cat: 'coin', n: 'Мешок коинов',    i: '💰', coins: 120,  price: '110 ₽', desc: 'Выгоднее на 20%.' },
+  { id: 'c3',  cat: 'coin', n: 'Сундук коинов',   i: '🧰', coins: 500,  price: '400 ₽', desc: 'Для серьёзных дел.' },
+  { id: 'w4',  cat: 'gear', n: 'Рунный меч',      i: '🗡️', atk: 45,  coinPrice: 200,  desc: 'Светится в темноте шахты.' },
+  { id: 'w5',  cat: 'gear', n: 'Клинок бездны',   i: '🖤', atk: 75,  coinPrice: 600,  desc: 'Вырезан из камня бездны.' },
+  { id: 'w6',  cat: 'gear', n: 'Экскалибур',      i: '🌟', atk: 120, coinPrice: 1400, desc: 'Топовый меч сервера.' },
+  { id: 'a5',  cat: 'gear', n: 'Рунная броня',    i: '🧥', def: 42,  coinPrice: 350,  desc: 'Лёгкая и крепкая.' },
+  { id: 'a6',  cat: 'gear', n: 'Латы бездны',     i: '🕳', def: 70,  coinPrice: 800,  desc: 'Хорошая броня из бездны.' },
+  { id: 'a7',  cat: 'gear', n: 'Сет «Император музея»', i: '👑', def: 110, coinPrice: 1000, desc: 'Полный сет хранителя.' },
+  { id: 'k1',  cat: 'misc', n: 'Эликсир энергии', i: '🧪', coinPrice: 10,  desc: 'Мгновенно +100 энергии.' },
+  { id: 'k2',  cat: 'misc', n: 'Ящик камней',     i: '📦', coinPrice: 30,  desc: '5 случайных камней (шанс на рубин выше).' },
+  { id: 'k3',  cat: 'misc', n: 'Заряд кирки',     i: '✨', coinPrice: 15,  desc: 'x2 урон киркой на 10 минут.' }
+];
+
+/* ---- обмен камней на коины ---- */
+const COIN_EXCHANGE = {
+  ruby: 1, sapphire: 5, diamond: 10
+};
+
+/* ---- миссии ---- */
+const MISSION_TEMPLATES = [
+  { id: 'rocks',  text: 'Разбей {t} камней',                t: 25,  reward: { coins: 1500, xp: 45,  donate: 0 } },
+  { id: 'sold',   text: 'Продай {t} камней музею',          t: 20,  reward: { coins: 2200, xp: 40,  donate: 0 } },
+  { id: 'earn',   text: 'Заработай {t} монет',              t: 6000,reward: { coins: 1800, xp: 60,  donate: 0 } },
+  { id: 'wins',   text: 'Победи в {t} стычках',             t: 2,   reward: { coins: 2600, xp: 80,  donate: 1 } },
+  { id: 'depo',   text: 'Сдай {t} камня в экспозицию',      t: 3,   reward: { coins: 2000, xp: 50,  donate: 0 } },
+  { id: 'upg',    text: 'Улучши кирку {t} раз',             t: 1,   reward: { coins: 3000, xp: 70,  donate: 0 } }
+];
+
+/* ---- территории ---- */
+const TERRITORIES = [
+  { id: 't1', n: 'Старый карьер',   i: '⛏️', income: 900,    garrison: 0 },
+  { id: 't2', n: 'Медные холмы',    i: '🪙', income: 2400,   garrison: 40 },
+  { id: 't3', n: 'Серебряный тракт',i: '🥈', income: 6000,   garrison: 90 },
+  { id: 't4', n: 'Изумрудная падь', i: '💚', income: 15000,  garrison: 160 },
+  { id: 't5', n: 'Рубиновый каньон',i: '♦️', income: 38000,  garrison: 260 },
+  { id: 't6', n: 'Сапфировый порт', i: '🔹', income: 90000,  garrison: 420 },
+  { id: 't7', n: 'Алмазный перевал',i: '💎', income: 220000, garrison: 650 },
+  { id: 't8', n: 'Музейный квартал',i: '🏛', income: 500000, garrison: 900 }
+];
+
+/* ---- ивенты ---- */
+const EVENTS = [
+  { id: 'rush',  n: 'Золотая лихорадка', i: '🌟', desc: 'Продажа камней приносит x3 монеты. Все дерутся за жилу!', mult: 3, dur: 180 },
+  { id: 'raid',  n: 'Набег бандитов',    i: '🏴‍☠️', desc: 'Добыча с боёв x2, но и нападают чаще.', mult: 2, dur: 180 },
+  { id: 'fair',  n: 'Ярмарка коллекционеров', i: '🎪', desc: 'Музей платит x2 за экспозицию.', mult: 2, dur: 240 }
+];
+
+/* ---- боты-богачи для топа и арены ---- */
+const BOT_NAMES = [
+  'Артур_Камнегрыз', 'Тигран💎', 'Левон_Шахтёр', 'Нелли Рубин', 'Гагик Голд',
+  'Марк_Обсидиан', 'Сона Кристалл', 'Давид_Бездна', 'Ани Сапфир', 'Ваан_Молот',
+  'Рубен_Копи', 'Мгер Алмазный', 'Нарек_Клан', 'Лилит_Муза', 'Саркис_Гранит',
+  'Эдгар_Жила', 'Карина_Топаз', 'Ашот_Лихорадка'
+];
+
+/* ============================================================
+   МУЗЕЙ КАМНЕЙ — движок (ванильный JS, без зависимостей)
+   ============================================================ */
+const SAVE_KEY = 'gem_museum_save_v1';
+const VERSION = 1;
+
+const DEFAULTS = () => ({
+  v: VERSION,
+  created: Date.now(),
+  lastSeen: Date.now(),
+  name: 'Шахтёр',
+  photo: '',
+  level: 1,
+  xp: 0,
+  coins: 500,
+  vault: 0,
+  donate: 0,
+  energy: 100,
+  energyMax: 100,
+  energyTs: Date.now(),
+  pick: 'p1',
+  weapons: ['w1'], arm: ['a1'],
+  gear: 'w1', armor: 'a1',
+  ownedGear: ['w1', 'a1'],
+  mine: 'm1',
+  unlocked: ['m1'],
+  mineState: {},
+  inv: { stone: 0, coal: 0 },
+  museum: { stone: 0, coal: 0, copper: 0, iron: 0, silver: 0, gold: 0, topaz: 0, jade: 0, amethyst: 0, emerald: 0, ruby: 0, sapphire: 0, diamond: 0 },
+  museumLvl: 1,
+  combo: 0,
+  lastRockTs: 0,
+  missions: [],
+  missionTs: 0,
+  stats: { rocks: 0, rockBreaks: 0, sold: 0, earned: 0, wins: 0, losses: 0, depo: 0, upg: 0, stolen: 0, terWins: 0 },
+  event: null,
+  eventTs: 0,
+  territories: {},
+  clan: null,
+  buffs: { pickX2Ts: 0 },
+  bots: [],
+  log: [],
+  totd: '',
+  totdDone: false
+});
+
+let S = null;
+
+/* ---------------- утилиты ---------------- */
+const $ = s => document.querySelector(s);
+const el = (t, c, h) => { const e = document.createElement(t); if (c) e.className = c; if (h != null) e.innerHTML = h; return e; };
+const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+const rnd = (a, b) => a + Math.random() * (b - a);
+const pickOne = arr => arr[Math.floor(Math.random() * arr.length)];
+const fmt = n => {
+  n = Math.floor(n);
+  if (n >= 1e9) return (n / 1e9).toFixed(n % 1e9 === 0 ? 0 : 1) + 'B';
+  if (n >= 1e6) return (n / 1e6).toFixed(n % 1e6 === 0 ? 0 : 1) + 'M';
+  return n.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
+};
+const now = () => Date.now();
+const itemName = id => (ITEMS[id] ? ITEMS[id].n : id);
+const itemIcon = id => (ITEMS[id] ? ITEMS[id].i : '❔');
+
+function save() { try { S.lastSeen = now(); localStorage.setItem(SAVE_KEY, JSON.stringify(S)); } catch (e) {} }
+function load() {
+  try {
+    const raw = localStorage.getItem(SAVE_KEY);
+    if (!raw) return null;
+    const d = JSON.parse(raw);
+    if (!d || d.v !== VERSION) return null;
+    return Object.assign(DEFAULTS(), d);
+  } catch (e) { return null; }
+}
+
+/* ---------------- telegram ---------------- */
+let TG = null;
+function initTelegram() {
+  const tg = window.Telegram && window.Telegram.WebApp;
+  if (!tg) return;
+  TG = tg;
+  try { tg.ready(); tg.expand(); tg.setHeaderColor && tg.setHeaderColor('#0b0d12'); } catch (e) {}
+  const u = tg.initDataUnsafe && tg.initDataUnsafe.user;
+  if (u) {
+    S.name = [u.first_name, u.last_name].filter(Boolean).join(' ') || 'Шахтёр';
+    S.photo = u.photo_url || '';
+  }
+}
+function haptic(type) {
+  try { if (TG && TG.HapticFeedback) TG.HapticFeedback.impactOccurred(type || 'light'); } catch (e) {}
+}
+function tgSay(text) {
+  try { if (TG && TG.showAlert) TG.showAlert(text); else toast(text); } catch (e) { toast(text); }
+}
+
+/* ---------------- хедер / навигация ---------------- */
+const NAV = [
+  { id: 'mine',  i: '⛏️', n: 'Шахта' },
+  { id: 'museum',i: '🏛', n: 'Музей' },
+  { id: 'shop',  i: '🛒', n: 'Магазин' },
+  { id: 'arena', i: '⚔️', n: 'Арена' },
+  { id: 'clan',  i: '🏰', n: 'Клан' }
+];
+let TAB = 'mine';
+let SUB = null; // доп. экраны (лидеры, карта, миссии, профиль)
+
+function xpNeed(lvl) { return Math.floor(50 * Math.pow(lvl, 1.55)); }
+
+function renderHeader() {
+  const h = $('#hdr');
+  const need = xpNeed(S.level);
+  h.innerHTML = '';
+  h.appendChild(el('div', 'hrow', `
+    <div class="who">
+      <div class="ava">${S.photo ? `<img src="${S.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : '⛏️'}</div>
+      <div class="col" style="min-width:0">
+        <div class="nm">${esc(S.name)}</div>
+        <div class="rk">Ур. ${S.level} · ${levelTitle(S.level)}</div>
+      </div>
+    </div>
+    <div class="cur">
+      <div class="pill">⚡ ${Math.floor(S.energy)}</div>
+      <div class="pill">🪙 ${fmt(S.coins)}</div>
+      <div class="pill coin">💎 ${fmt(S.donate)}</div>
+    </div>`));
+  h.appendChild(el('div', 'xpbar', '<i style="width:' + clamp(S.xp / need * 100, 0, 100) + '%"></i>'));
+}
+function esc(s) { return String(s).replace(/[<>&"]/g, c => ({ '<': '&lt;', '>': '&gt;', '&': '&amp;', '"': '&quot;' }[c])); }
+function levelTitle(l) {
+  if (l < 5) return 'Новичок';
+  if (l < 10) return 'Камнегрыз';
+  if (l < 20) return 'Шахтёр';
+  if (l < 35) return 'Мастер кирки';
+  if (l < 50) return 'Хранитель музея';
+  if (l < 75) return 'Горный барон';
+  return 'Легенда копей';
+}
+
+function renderNav() {
+  const n = $('#nav');
+  n.innerHTML = '';
+  NAV.forEach(t => {
+    const b = el('button', TAB === t.id && !SUB ? 'on' : '', `<i>${t.i}</i><span>${t.n}</span>`);
+    if (t.id === 'museum' && shopBadge()) b.appendChild(el('span', 'badge', String(shopBadge())));
+    b.onclick = () => { TAB = t.id; SUB = null; render(); };
+    n.appendChild(b);
+  });
+}
+function shopBadge() {
+  let n = 0;
+  if (canUpgradePick().ok) n++;
+  if (S.missions) n += S.missions.filter(m => m.done && !m.claimed).length;
+  return n;
+}
+
+function go(tab, sub) { TAB = tab; SUB = sub || null; render(); }
+
+/* ---------------- энергия / оффлайн ---------------- */
+const ENERGY_PER_SEC = 100 / (4 * 60); // полная шкала за 4 минуты
+function regenEnergy() {
+  const t = now();
+  const dt = (t - S.energyTs) / 1000;
+  if (dt > 0) {
+    S.energy = clamp(S.energy + dt * ENERGY_PER_SEC, 0, S.energyMax);
+    S.energyTs = t;
+  }
+}
+function spawnEventIfNeeded() {
+  const t = now();
+  if (S.event) {
+    if (t > S.event.until) { S.event = null; save(); }
+    return;
+  }
+  if (t - S.eventTs > 4 * 60 * 1000) {
+    if (Math.random() < 0.75) {
+      const e = pickOne(EVENTS);
+      S.event = { id: e.id, until: t + e.dur * 1000 };
+      S.eventTs = t;
+      toast(`${e.i} Ивент: ${e.n}! ${e.desc}`, 'gold', 3200);
+      save();
+    } else S.eventTs = t;
+  }
+}
+function eventMult(kind) {
+  if (!S.event) return 1;
+  const e = EVENTS.find(x => x.id === S.event.id);
+  if (!e) return 1;
+  if (kind === 'sell' && e.id === 'rush') return e.mult;
+  if (kind === 'fight' && e.id === 'raid') return e.mult;
+  if (kind === 'museum' && e.id === 'fair') return e.mult;
+  return 1;
+}
+
+/* ---------------- кирка и добыча ---------------- */
+function pickObj(id) { return PICKS.find(p => p.id === (id || S.pick)) || PICKS[0]; }
+function myPick() { return pickObj(S.pick); }
+function pickDmg() {
+  const p = myPick();
+  let d = p.dmg * (1 + (S.level - 1) * 0.035);
+  if (S.buffs.pickX2Ts > now()) d *= 2;
+  return d;
+}
+function pickBonus() { return myPick().bonus + (S.level - 1) * 0.012; }
+function critChance() { return myPick().crit + Math.min(0.15, (S.level - 1) * 0.003); }
+
+function mineObj(id) { return MINES.find(m => m.id === (id || S.mine)) || MINES[0]; }
+function rockState(id) {
+  const m = mineObj(id);
+  if (!S.mineState[m.id]) S.mineState[m.id] = { hp: m.hp, max: m.hp, fails: 0 };
+  const st = S.mineState[m.id];
+  if (st.max !== m.hp) { st.max = m.hp; st.hp = m.hp; }
+  return st;
+}
+
+function swing() {
+  regenEnergy();
+  const st = rockState();
+  const cost = 3;
+  if (S.energy < cost) { toast('⚡ Энергия кончилась. Подожди или выпей эликсир.', 'bad'); return; }
+  S.energy -= cost;
+  S.combo = now() - S.lastRockTs < 3200 ? Math.min(S.combo + 1, 25) : 1;
+  S.lastRockTs = now();
+  const comboMult = 1 + S.combo * 0.02;
+
+  const p = myPick();
+  let dmg = pickDmg() * comboMult;
+  const crit = Math.random() < critChance();
+  if (crit) dmg *= 2.2;
+  st.hp -= dmg;
+  haptic(crit ? 'medium' : 'light');
+  fxHit(crit, dmg);
+  fxSpark(crit ? 8 : 3, crit ? '#ffcf5c' : '#8fa3c4');
+  if (crit) fxShake();
+
+  if (st.hp <= 0) {
+    st.hp = 0;
+    breakRock(crit);
+    const m = mineObj();
+    st.max = m.hp;
+    st.hp = m.hp;
+  }
+  S.stats.rocks++;
+  checkMissionProgress();
+  save();
+  renderMineScene();
+  renderHeader();
+}
+
+const id_colors = { ruby: '#ff4d6a', sapphire: '#3a7bff', diamond: '#9fe8ff' };
+function breakRock() {
+  const m = mineObj();
+  S.stats.rockBreaks = (S.stats.rockBreaks || 0) + 1;
+  // основной камень
+  let roll = Math.random(), acc = 0, ore = null;
+  for (const k in m.ores) { acc += m.ores[k]; if (roll <= acc) { ore = k; break; } }
+  if (!ore) ore = Object.keys(m.ores)[0];
+  const qty = 1 + Math.floor(Math.random() * (1 + Math.floor(pickBonus())));
+  addItem(ore, qty);
+
+  const gainCoins = Math.floor(m.money * pickBonus() * (1 + rnd(-0.15, 0.25)) * eventMult('sell') * 0.35);
+  S.coins += gainCoins;
+  S.stats.earned += gainCoins;
+  addXp(m.xp);
+
+  // редкие камни
+  let lucky = null;
+  const depth = LUCKY_BY_MINE[m.id] != null ? LUCKY_BY_MINE[m.id] : 1;
+  for (const l of LUCKY) {
+    let ch = l.chance * depth * (1 + (S.combo - 1) * 0.01);
+    if (S.event && S.event.id === 'rush') ch *= 1.5;
+    if (Math.random() < ch) { lucky = l.id; break; }
+  }
+  let msg = `+${qty} ${itemIcon(ore)} ${itemName(ore)} · +${fmt(gainCoins)}🪙`;
+  if (lucky) {
+    addItem(lucky, 1);
+    msg = `${itemIcon(lucky)} ${itemName(lucky).toUpperCase()}! ` + msg;
+    toast(msg, 'gold', 2200);
+    haptic('heavy');
+    fxSpark(16, id_colors[lucky] || '#9fe8ff');
+    S.combo = Math.min(25, S.combo + 3);
+  }
+  fxLucky(lucky);
+  toast(msg, lucky ? 'gold' : 'good', 1500);
+  checkLevelUp();
+}
+
+function addItem(id, q) {
+  S.inv[id] = (S.inv[id] || 0) + q;
+  if (!S.museum[id]) S.museum[id] = 0;
+}
+function addXp(v) {
+  S.xp += v;
+  let need = xpNeed(S.level);
+  while (S.xp >= need) { S.xp -= need; S.level++; S.energyMax = 100 + (S.level - 1) * 4; S.energy = S.energyMax; need = xpNeed(S.level); checkLevelUp(true); }
+}
+function checkLevelUp(silent) {
+  const need = xpNeed(S.level);
+  if (S.xp >= need) return;
+}
+
+/* ---------------- выкуп музея ---------------- */
+function sellValue(id) {
+  let v = ITEMS[id].p * eventMult('sell');
+  if (id === 'ruby' || id === 'sapphire' || id === 'diamond') v *= 1; // редкие — фикс цена в коинах отдельно
+  return Math.floor(v);
+}
+function museumMult() { return 1 + (S.museumLvl - 1) * 0.12; }
+
+function sellAll(force) {
+  if (!force) {
+    const rare = ['ruby', 'sapphire', 'diamond'].filter(k => (S.inv[k] || 0) > 0);
+    if (rare.length) {
+      showModal(`<div class="sh-head"><div><h3>В рюкзаке редкие камни</h3>
+        <div class="f11 dim">Их можно обменять на донатную валюту — это выгоднее</div></div>
+        <button class="close" onclick="closeModal()">✕</button></div>
+        ${rare.map(k => `<div class="expo"><div class="gem ${RARITY[ITEMS[k].r].cls}">${ITEMS[k].i}</div>
+          <div class="col" style="flex:1"><div class="f13 b">${ITEMS[k].n} ×${S.inv[k]}</div>
+          <div class="f11 dim">Обмен на ${COIN_EXCHANGE[k]} 💎 за шт или ${fmt(ITEMS[k].p)}🪙</div></div></div>`).join('')}
+        <div class="grid2 mt10">
+          <button class="btn ghost" onclick="closeModal();go('museum','exchange')">Обменять на 💎</button>
+          <button class="btn green" onclick="closeModal();sellAll(true)">Всё равно продать</button>
+        </div>`);
+      return;
+    }
+  }
+  let total = 0, list = [];
+  for (const id in S.inv) {
+    const q = S.inv[id] || 0;
+    if (q > 0) { const v = sellValue(id) * q; total += v; list.push({ id, q, v }); }
+  }
+  if (!total) { toast('Нечего продавать — иди копай!', 'bad'); return; }
+  for (const l of list) S.inv[l.id] = 0;
+  S.coins += Math.floor(total);
+  S.stats.earned += Math.floor(total);
+  S.stats.sold += list.reduce((a, b) => a + b.q, 0);
+  addXp(Math.max(5, Math.floor(total / 400)));
+  toast(`🏛 Музей выкупил всё за ${fmt(total)} 🪙`, 'gold');
+  haptic('medium');
+  checkMissionProgress();
+  save(); render();
+}
+function sellOne(id, q) {
+  q = Math.min(q || 1, S.inv[id] || 0);
+  if (q <= 0) return;
+  const v = sellValue(id) * q;
+  S.inv[id] -= q;
+  S.coins += Math.floor(v);
+  S.stats.earned += Math.floor(v);
+  S.stats.sold += q;
+  addXp(Math.max(2, Math.floor(v / 500)));
+  checkMissionProgress(); save(); render();
+}
+
+/* donate камней в экспозицию: даёт постоянный доход */
+function donateOne(id, q) {
+  q = Math.min(q || 1, S.inv[id] || 0);
+  if (q <= 0) return;
+  S.inv[id] -= q;
+  S.museum[id] = (S.museum[id] || 0) + q;
+  S.stats.depo += q;
+  addXp(q * 4);
+  checkMissionProgress(); save(); render();
+}
+function museumIncomePerHour() {
+  let v = 0;
+  for (const id in S.museum) v += (S.museum[id] || 0) * ITEMS[id].p * 0.004;
+  return Math.floor(v * museumMult() * eventMult('museum'));
+}
+function museumUpgradeCost() { return Math.floor(25000 * Math.pow(3.4, S.museumLvl - 1)); }
+function upgradeMuseum() {
+  const c = museumUpgradeCost();
+  if (S.coins < c) { toast('Не хватает монет', 'bad'); return; }
+  S.coins -= c; S.museumLvl++;
+  toast(`🏛 Музей улучшен до ур. ${S.museumLvl}! Доход +12%`, 'gold');
+  save(); render();
+}
+
+/* ---------------- улучшение кирки ---------------- */
+function nextPick() { const i = PICKS.findIndex(p => p.id === S.pick); return PICKS[i + 1] || null; }
+function canUpgradePick() {
+  const np = nextPick();
+  if (!np) return { ok: false, max: true };
+  if (S.coins < np.cost) return { ok: false, need: 'coins' };
+  for (const k in np.req) if ((S.inv[k] || 0) < np.req[k]) return { ok: false, need: k };
+  return { ok: true, p: np };
+}
+function upgradePick() {
+  const c = canUpgradePick();
+  if (!c.ok) {
+    toast(c.max ? 'Это лучшая кирка!' : 'Не хватает монет или камней для улучшения', 'bad');
+    return;
+  }
+  const np = c.p;
+  S.coins -= np.cost;
+  for (const k in np.req) S.inv[k] -= np.req[k];
+  S.pick = np.id;
+  S.stats.upg++;
+  addXp(120);
+  toast(`⛏️ ${np.n} готова! Урон ${np.dmg}`, 'gold', 2400);
+  haptic('heavy');
+  checkMissionProgress(); save(); render();
+}
+
+/* ---------------- бой ---------------- */
+function myAtk() {
+  const w = SHOP.find(s => s.id === S.gear) || GEAR.find(g => g.id === S.gear);
+  const lvlBonus = 1 + (S.level - 1) * 0.05;
+  return Math.floor(((w && w.atk) || 5) * lvlBonus);
+}
+function myDef() {
+  const a = SHOP.find(s => s.id === S.armor) || GEAR.find(g => g.id === S.armor);
+  const lvlBonus = 1 + (S.level - 1) * 0.05;
+  return Math.floor(((a && a.def) || 3) * lvlBonus);
+}
+function myHp() { return 130 + S.level * 20 + myDef() * 2.5; }
+
+function makeBots() {
+  const bots = [];
+  const n = 9;
+  for (let i = 0; i < n; i++) {
+    const nm = BOT_NAMES[(i * 3 + 1) % BOT_NAMES.length];
+    const rk = S.level + Math.floor(rnd(-3, 9));
+    bots.push({
+      id: 'b' + i, n: nm, level: Math.max(1, rk),
+      atk: Math.floor(7 + rk * 3.1 + rnd(0, 6)),
+      def: Math.floor(3 + rk * 2.2 + rnd(0, 5)),
+      loot: Math.floor(300 * Math.pow(1.55, Math.max(0, rk - 1)) * rnd(0.7, 1.4)),
+      gems: Math.random() < 0.25 ? Math.floor(rnd(1, 3)) : 0,
+      emoji: pickOne(['👤', '🧔', '👩‍🦰', '🧑‍🦱', '👨‍🦳', '👵', '🧙', '🥸'])
+    });
+  }
+  bots.sort((a, b) => a.loot - b.loot);
+  return bots;
+}
+function ensureBots() { if (!S.bots || !S.bots.length) S.bots = makeBots(); }
+
+function fight(botId, mode) {
+  ensureBots();
+  const b = S.bots.find(x => x.id === botId);
+  if (!b) return;
+  const energyCost = mode === 'raid' ? 18 : 10;
+  regenEnergy();
+  if (S.energy < energyCost) { toast('⚡ Мало энергии для боя', 'bad'); return; }
+  S.energy -= energyCost;
+
+  const hpMe = myHp(), hpBot = 90 + b.level * 16 + b.def * 2;
+  let a = hpMe, c = hpBot, round = 0;
+  const log = [];
+  log.push(`⚔️ ${esc(S.name)} (${myAtk()}⚔/${myDef()}🛡) vs ${b.n} ур.${b.level} (${b.atk}⚔/${b.def}🛡)`);
+  while (a > 0 && c > 0 && round < 40) {
+    round++;
+    const critHit = Math.random() < 0.12;
+    const dmg1 = Math.max(1, Math.floor(myAtk() * rnd(0.85, 1.15) * (critHit ? 1.8 : 1) - b.def * 0.45));
+    c -= dmg1;
+    log.push(`Ты бьёшь: −${dmg1}${critHit ? ' 💥крит' : ''}`);
+    if (c <= 0) break;
+    const dmg2 = Math.max(1, Math.floor(b.atk * rnd(0.8, 1.15) - myDef() * 0.45));
+    a -= dmg2;
+    log.push(`${b.n} бьёт: −${dmg2}`);
+  }
+  const win = c <= 0 && a > 0;
+
+  if (win) {
+    S.stats.wins++;
+    const mul = eventMult('fight');
+    const loot = Math.floor(b.loot * mul * (mode === 'raid' ? 1.2 : 1));
+    S.coins += loot; S.stats.earned += loot;
+    log.push(`🏆 Победа! Трофеи: +${fmt(loot)} 🪙`);
+    if (b.gems) {
+      const g = ['ruby', 'sapphire', 'diamond'][Math.min(2, Math.floor(Math.random() * 3))];
+      addItem(g, 1); log.push(`💠 Отбил редкий камень: ${itemName(g)}`);
+    }
+    // немного камней
+    const ores = ['coal', 'iron', 'silver', 'gold'];
+    const o = pickOne(ores); const q = 1 + Math.floor(Math.random() * 3);
+    addItem(o, q); log.push(`+${q} ${itemIcon(o)} ${itemName(o)}`);
+    addXp(30 + b.level * 6);
+    b.loot = Math.floor(b.loot * 0.85);
+  } else {
+    S.stats.losses++;
+    const steal = Math.floor(S.coins * (mode === 'raid' ? 0.08 : 0.05));
+    S.coins = Math.max(0, S.coins - steal);
+    S.stats.stolen += steal;
+    log.push(`💀 Поражение. Потеряно ${fmt(steal)} 🪙`);
+  }
+  S.missions && checkMissionProgress();
+  haptic(win ? 'heavy' : 'rigid');
+  save();
+  showModal(`<div class="sh-head"><div><h3>${win ? '🏆 Победа' : '💀 Поражение'}</h3>
+      <div class="f11 dim">Раундов: ${round} · ${mode === 'raid' ? 'Набег' : 'Дуэль'}</div></div>
+      <button class="close" onclick="closeModal()">✕</button></div>
+      <div class="log">${log.map(l => `<div>${l}</div>`).join('')}</div>
+      <button class="btn primary wide mt10" onclick="closeModal();render()">Продолжить</button>`);
+  render();
+}
+
+/* ---------------- схрон (спрятать деньги) ---------------- */
+function stashAll() {
+  if (S.coins <= 0) { toast('Нечего прятать', 'bad'); return; }
+  S.vault = (S.vault || 0) + S.coins;
+  toast(`🏦 Спрятано ${fmt(S.coins)} 🪙 в схроне — их не отберут в бою`, 'good', 2400);
+  S.coins = 0; save(); render();
+}
+function unstash() {
+  if (!S.vault) { toast('Схрон пуст', 'bad'); return; }
+  S.coins += S.vault;
+  toast(`🏦 Забрано ${fmt(S.vault)} 🪙 из схрона`, 'good');
+  S.vault = 0; save(); render();
+}
+
+/* ---------------- миссии ---------------- */
+function genMissions() {
+  const lvl = S.level;
+  const tpl = [...MISSION_TEMPLATES].sort(() => Math.random() - 0.5).slice(0, 3);
+  S.missions = tpl.map((t, i) => {
+    const scale = 1 + (lvl - 1) * 0.35;
+    const target = Math.max(1, Math.round(t.t * scale));
+    return {
+      id: t.id + '_' + Date.now() + '_' + i,
+      kind: t.id,
+      text: t.text.replace('{t}', fmt(target)),
+      target,
+      prog: 0,
+      reward: {
+        coins: Math.floor(t.reward.coins * (1 + (lvl - 1) * 0.5)),
+        xp: Math.floor(t.reward.xp * (1 + (lvl - 1) * 0.3)),
+        donate: t.reward.donate || 0
+      },
+      done: false, claimed: false
+    };
+  });
+  S.missionTs = now();
+}
+function checkMissionProgress() {
+  if (!S.missions || !S.missions.length) return;
+  for (const m of S.missions) {
+    if (m.claimed) continue;
+    let v = 0;
+    if (m.kind === 'rocks') v = S.stats.rockBreaks;
+    if (m.kind === 'sold') v = S.stats.sold;
+    if (m.kind === 'earn') v = S.stats.earned;
+    if (m.kind === 'wins') v = S.stats.wins;
+    if (m.kind === 'depo') v = S.stats.depo;
+    if (m.kind === 'upg') v = S.stats.upg;
+    m.prog = clamp(v, 0, m.target);
+    if (m.prog >= m.target) m.done = true;
+  }
+}
+function claimMission(id) {
+  const m = S.missions.find(x => x.id === id);
+  if (!m || !m.done || m.claimed) return;
+  m.claimed = true;
+  S.coins += m.reward.coins;
+  S.donate += m.reward.donate;
+  addXp(m.reward.xp);
+  toast(`🎁 Награда: ${fmt(m.reward.coins)} 🪙${m.reward.donate ? ' + ' + m.reward.donate + ' 💎' : ''}`, 'gold', 2400);
+  haptic('heavy');
+  save(); render();
+}
+function refreshMissions(force) {
+  if (force || !S.missions.length || now() - S.missionTs > 6 * 3600 * 1000) genMissions();
+  checkMissionProgress();
+}
+
+/* ---------------- клан / территории ---------------- */
+const CLANS = [
+  { id: 'k1', n: 'Камнегрызы',    e: '🦾', bonus: 'atk+10%', atk: 1.10, def: 1.0 },
+  { id: 'k2', n: 'Хранители музея',e: '🏛', bonus: 'доход+15%', inc: 1.15, def: 1.0 },
+  { id: 'k3', n: 'Лунные копатели',e: '🌙', bonus: 'добыча+12%', mine: 1.12, def: 1.05 }
+];
+function clanObj() { return CLANS.find(c => c.id === S.clan); }
+function territoryIncomePerHour() {
+  let v = 0;
+  for (const t of TERRITORIES) if (S.territories[t.id] === 'me') v += t.income;
+  const c = clanObj();
+  if (c && c.inc) v *= c.inc;
+  return Math.floor(v);
+}
+function joinClan(id) {
+  S.clan = id;
+  toast(`🏰 Ты в клане «${CLANS.find(c => c.id === id).n}»`, 'gold');
+  save(); render();
+}
+function attackTerritory(tid) {
+  const t = TERRITORIES.find(x => x.id === tid);
+  if (!t) return;
+  regenEnergy();
+  if (S.energy < 25) { toast('⚡ Нужно 25 энергии', 'bad'); return; }
+  S.energy -= 25;
+  const power = Math.floor((myAtk() * 1.6 + myDef()) * (1 + (S.level - 1) * 0.02));
+  const need = t.garrison + 20;
+  const win = power + rnd(0, 30) >= need;
+  if (win) {
+    S.territories[tid] = 'me';
+    S.stats.terWins++;
+    S.donate += 1;
+    addXp(60);
+    toast(`🏴 Территория «${t.n}» захвачена! +1 💎 и доход ${fmt(t.income)}🪙/час`, 'gold', 3200);
+    haptic('heavy');
+  } else {
+    toast(`Твой отряд (${power}) слабее гарнизона (${need}). Прокачай оружие.`, 'bad', 2600);
+  }
+  if (clanObj() && clanObj().id === 'k1') power;
+  save(); render();
+}
+
+/* ---------------- магазин ---------------- */
+function buyGear(id) {
+  const g = GEAR.find(x => x.id === id) || SHOP.find(x => x.id === id);
+  if (!g) return;
+  if (S.ownedGear.includes(id)) { equipGear(id); return; }
+  const price = g.price || 0;
+  if (S.coins < price) { toast('Не хватает монет', 'bad'); return; }
+  S.coins -= price;
+  S.ownedGear.push(id);
+  equipGear(id);
+  toast(`Куплено: ${g.i} ${g.n}`, 'good');
+  save(); render();
+}
+function buyCoinItem(id) {
+  const g = SHOP.find(x => x.id === id);
+  if (!g) return;
+  if (g.cat === 'coin') {
+    showModal(`<div class="sh-head"><div><h3>Пополнение</h3><div class="f11 dim">В реальном приложении здесь откроется оплата</div></div><button class="close" onclick="closeModal()">✕</button></div>
+      <div class="card"><div class="between"><div class="row"><div class="gem">${g.i}</div><div class="col"><div class="f13 b">${g.n}</div><div class="f11 dim">${g.coins} 💎 за ${g.price}</div></div></div></div></div>
+      <div class="hint">Платёжные системы: Telegram Stars / TON / карта. В прототипе — демо-начисление.</div>
+      <button class="btn primary wide mt10" onclick="demoTopup(${g.coins});closeModal()">Демо: начислить ${g.coins} 💎</button>`);
+    return;
+  }
+  if (S.donate < (g.coinPrice || 0)) { toast(`Нужно ${g.coinPrice} 💎`, 'bad'); return; }
+  if ((g.cat === 'gear') && S.ownedGear.includes(id)) { equipGear(id); toast('Надето', 'good'); return; }
+  S.donate -= g.coinPrice || 0;
+  if (g.cat === 'gear') { S.ownedGear.push(id); equipGear(id); toast(`Куплено: ${g.n}`, 'gold'); }
+  if (id === 'k1') { S.energy = S.energyMax; toast('⚡ Энергия восстановлена', 'good'); }
+  if (id === 'k2') {
+    for (let i = 0; i < 5; i++) {
+      let r = Math.random();
+      let it = r < 0.06 ? 'ruby' : r < 0.42 ? 'emerald' : r < 0.75 ? 'gold' : 'silver';
+      addItem(it, 1);
+    }
+    toast('📦 В ящике 5 камней!', 'good');
+  }
+  if (id === 'k3') { S.buffs.pickX2Ts = now() + 10 * 60 * 1000; toast('✨ Урон кирки x2 на 10 минут', 'gold'); }
+  haptic('medium');
+  save(); render();
+}
+function demoTopup(n) { S.donate += n; toast(`💎 +${n} коинов`, 'gold'); save(); render(); }
+function equipGear(id) {
+  const g = SHOP.find(x => x.id === id) || GEAR.find(x => x.id === id);
+  if (!g) return;
+  if (g.t === 'w') S.gear = id; else if (g.t === 'a') S.armor = id;
+  else if (typeof g.atk === 'number') S.gear = id;
+  else if (typeof g.def === 'number') S.armor = id;
+  save();
+}
+function exchangeGem(id) {
+  const rate = COIN_EXCHANGE[id];
+  if (!rate) return;
+  if ((S.inv[id] || 0) < 1) { toast(`Нет ${itemName(id)} в рюкзаке`, 'bad'); return; }
+  S.inv[id]--;
+  S.donate += rate;
+  toast(`${itemIcon(id)} ${itemName(id)} → +${rate} 💎`, 'gold');
+  save(); render();
+}
+
+/* ---------------- топ ---------------- */
+function leaderboard() {
+  ensureBots();
+  const me = { n: S.name + ' (ты)', v: S.coins + S.donate * 20000 + territoryIncomePerHour() * 6, me: true, level: S.level };
+  const list = S.bots.map(b => ({ n: b.n, v: b.loot * 14 + b.level * 24000, level: b.level })).concat([me]);
+  list.sort((a, b) => b.v - a.v);
+  return list;
+}
+
+/* ---------------- рендер экранов ---------------- */
+function render() {
+  regenEnergy();
+  spawnEventIfNeeded();
+  refreshMissions();
+  renderHeader();
+  renderNav();
+  const sc = $('#screen');
+  sc.innerHTML = '';
+  const map = { mine: renderMine, museum: renderMuseum, shop: renderShop, arena: renderArena, clan: renderClan };
+  if (SUB === 'leaders') renderLeaders(sc);
+  else if (SUB === 'missions') renderMissions(sc);
+  else if (SUB === 'profile') renderProfile(sc);
+  else if (SUB === 'exchange') renderExchange(sc);
+  else (map[TAB] || renderMine)(sc);
+  save();
+}
+
+/* --- ШАХТА --- */
+function renderMine(sc) {
+  const m = mineObj();
+  const st = rockState();
+  const pick = myPick();
+  const pct = clamp(st.hp / st.max * 100, 0, 100);
+
+  sc.appendChild(el('div', 'between', `
+    <div class="col"><div class="f16 b">${m.e} ${m.n}</div>
+      <div class="f11 dim">Твёрдость ${fmt(m.hp)} · добыча ~${fmt(m.money)}🪙</div></div>
+    <button class="btn sm ghost" onclick="showMines()">Шахты ▾</button>`));
+
+  const scene = el('div', 'scene', `
+    <div class="wall"></div><div class="floor"></div>
+    <div class="topleft">
+      <div class="tag">${pick.i} ${pick.n}</div>
+      <div class="tag">Урон ${pickDmg().toFixed(1)} · крит ${(critChance() * 100).toFixed(0)}%</div>
+      ${S.buffs.pickX2Ts > now() ? '<div class="tag crit">✨ x2 до ' + new Date(S.buffs.pickX2Ts).toTimeString().slice(0, 5) + '</div>' : ''}
+    </div>
+    ${S.combo > 1 ? `<div class="combo">🔥 x${S.combo}</div>` : ''}
+    <div class="miner">🧑‍🏭</div>
+    <div class="rock-wrap">
+      <div class="rock" id="rockEl">${m.e === '⛏️' ? '🪨' : m.e}</div>
+      <div class="hpbar"><i id="hpEl" style="width:${pct}%"></i></div>
+      <div class="f11 dim mt6" id="hpTxt">${fmt(Math.ceil(st.hp))} / ${fmt(st.max)}</div>
+    </div>`);
+  scene.style.marginTop = '10px';
+  sc.appendChild(scene);
+
+  const b = el('button', 'btn primary wide', `⛏️ КОПАТЬ <span class="f11" style="opacity:.65">(3 ⚡)</span>`);
+  b.style.padding = '16px'; b.style.fontSize = '16px';
+  b.onclick = swing;
+  sc.appendChild(b);
+
+  // энергия
+  const en = el('div', 'card mt10', `
+    <div class="between"><div class="f12 b">⚡ Энергия ${Math.floor(S.energy)}/${S.energyMax}</div>
+      <div class="f11 dim">+${(ENERGY_PER_SEC * 60).toFixed(0)}/мин</div></div>
+    <div class="bar mt6"><i style="width:${clamp(S.energy / S.energyMax * 100, 0, 100)}%"></i></div>`);
+  sc.appendChild(en);
+
+  // ивент
+  if (S.event) {
+    const e = EVENTS.find(x => x.id === S.event.id);
+    const left = Math.max(0, Math.floor((S.event.until - now()) / 1000));
+    sc.appendChild(el('div', 'card', `<div class="row"><div class="gem">${e.i}</div>
+      <div class="col" style="flex:1"><div class="f13 b">${e.n}</div><div class="f11 dim">${e.desc}</div></div>
+      <div class="chip">${Math.floor(left / 60)}м ${left % 60}с</div></div>`));
+  }
+
+  // рюкзак кратко
+  const inv = Object.keys(S.inv).filter(k => S.inv[k] > 0);
+  const totalVal = inv.reduce((a, k) => a + sellValue(k) * S.inv[k], 0);
+  sc.appendChild(el('div', 'card', `
+    <div class="between"><div class="f13 b">🎒 Рюкзак · ${fmt(totalVal)} 🪙</div>
+      <button class="btn sm green" onclick="sellAll()" ${totalVal ? '' : 'disabled'}>Сдать всё</button></div>
+    <div class="row" style="flex-wrap:wrap;gap:6px;margin-top:8px">
+      ${inv.length ? inv.map(k => `<div class="chip">${itemIcon(k)} ${itemName(k)} ×${S.inv[k]}</div>`).join('') : '<div class="f11 dim">Пусто. Копай!</div>'}
+    </div>`));
+
+  sc.appendChild(el('div', 'grid2', `
+    <button class="btn ghost" onclick="go('museum')">🏛 Музей</button>
+    <button class="btn ghost" onclick="go('mine','leaders')">🏆 Топ богачей</button>`));
+  // fix: leaders через SUB
+  const btns = sc.querySelectorAll('.grid2 button');
+  if (btns[1]) btns[1].onclick = () => go('mine', 'leaders');
+}
+
+function renderMineScene() {
+  const st = rockState();
+  const hpEl = $('#hpEl'), hpTxt = $('#hpTxt'), rockEl = $('#rockEl');
+  if (!hpEl) { renderHeader(); return; }
+  hpEl.style.width = clamp(st.hp / st.max * 100, 0, 100) + '%';
+  hpTxt.textContent = fmt(Math.ceil(st.hp)) + ' / ' + fmt(st.max);
+  const combo = document.querySelector('.combo');
+  if (S.combo > 1 && !combo) {
+    const c = el('div', 'combo', '🔥 x' + S.combo);
+    document.querySelector('.scene').appendChild(c);
+  } else if (combo) combo.textContent = '🔥 x' + S.combo;
+  if (rockEl) {
+    rockEl.classList.add('hit');
+    setTimeout(() => rockEl.classList.remove('hit'), 70);
+  }
+}
+
+function showMines() {
+  const rows = MINES.map(m => {
+    const unlocked = S.unlocked.includes(m.id);
+    const cur = S.mine === m.id;
+    return `<div class="shopitem ${cur ? 'owned' : ''}">
+      <div class="gem" style="font-size:20px">${m.e}</div>
+      <div class="info"><div class="t">${m.n} ${cur ? '· здесь' : ''}</div>
+        <div class="d">Твёрдость ${fmt(m.hp)} · ~${fmt(m.money)}🪙 за камень<br>${Object.keys(m.ores).map(k => itemIcon(k)).join(' ')}</div></div>
+      ${unlocked
+        ? `<button class="btn sm ${cur ? 'ghost' : 'blue'}" ${cur ? 'disabled' : ''} onclick="setMine('${m.id}')">${cur ? 'Ты тут' : 'Войти'}</button>`
+        : `<button class="btn sm primary" onclick="unlockMine('${m.id}')">${fmt(m.cost)}🪙</button>`}
+    </div>`;
+  }).join('');
+  showModal(`<div class="sh-head"><div><h3>🗺 Шахты</h3><div class="f11 dim">Открывай новые — там дороже камни</div></div>
+    <button class="close" onclick="closeModal()">✕</button></div>${rows}`);
+}
+function setMine(id) { if (!S.unlocked.includes(id)) return; S.mine = id; closeModal(); render(); }
+function unlockMine(id) {
+  const m = mineObj(id);
+  if (S.coins < m.cost) { toast(`Нужно ${fmt(m.cost)} 🪙`, 'bad'); return; }
+  S.coins -= m.cost; S.unlocked.push(id); S.mine = id;
+  toast(`🔓 Открыта шахта «${m.n}»!`, 'gold', 2600);
+  haptic('heavy');
+  closeModal(); render();
+}
+
+/* --- МУЗЕЙ --- */
+function renderMuseum(sc) {
+  const income = museumIncomePerHour();
+  sc.appendChild(el('div', 'h1', `🏛 Музей <small>ур. ${S.museumLvl}</small>`));
+
+  sc.appendChild(el('div', 'card', `
+    <div class="between">
+      <div class="col"><div class="f11 dim">Доход экспозиции</div>
+        <div class="f16 b">${fmt(income)} 🪙/час</div>
+        <div class="f11 dim">множитель x${museumMult().toFixed(2)}${eventMult('museum') > 1 ? ' · ярмарка x' + eventMult('museum') : ''}</div></div>
+      <button class="btn sm purple" onclick="upgradeMuseum()">Улучшить<br>${fmt(museumUpgradeCost())}🪙</button>
+    </div>`));
+
+  sc.appendChild(el('div', 'card', `
+    <div class="between" style="margin-bottom:4px"><div class="f13 b">🎒 Сдать музею</div>
+      <button class="btn sm green" onclick="sellAll()">Сдать всё</button></div>
+    ${invRows('sell')}`));
+
+  const expoKeys = Object.keys(S.museum).filter(k => S.museum[k] > 0).sort((a, b) => ITEMS[b].p - ITEMS[a].p);
+  sc.appendChild(el('div', 'card', `
+    <div class="between" style="margin-bottom:4px"><div class="f13 b">🏛 Экспозиция</div>
+      <div class="chip">${expoKeys.reduce((a, k) => a + S.museum[k], 0)} экспонатов</div></div>
+    <div class="hint">Камни в экспозиции не продаются — они приносят 0,4% стоимости в час. Поставь редкий камень, и он будет кормить тебя всю игру.</div>
+    ${expoKeys.length ? expoKeys.map(k => {
+      const it = ITEMS[k];
+      const perH = Math.floor(S.museum[k] * it.p * 0.004 * museumMult() * eventMult('museum'));
+      const canAdd = (S.inv[k] || 0) > 0;
+      return `<div class="expo">
+        <div class="gem ${RARITY[it.r].cls}">${it.i}</div>
+        <div class="col" style="flex:1"><div class="f13 b">${it.n} ×${S.museum[k]}</div>
+          <div class="f11 dim">+${fmt(perH)} 🪙/час</div></div>
+        <button class="btn sm ${canAdd ? 'blue' : 'ghost'}" ${canAdd ? '' : 'disabled'} onclick="donateOne('${k}',1)">В музей +1</button>
+      </div>`;
+    }).join('') : '<div class="f11 dim mt6">Пока пусто. Загляни в рюкзак — там точно что-то есть.</div>'}`));
+
+  sc.appendChild(el('div', 'grid2', `
+    <button class="btn ghost" onclick="go('museum','exchange')">💎 Обмен редких</button>
+    <button class="btn ghost" onclick="go('museum','missions')">📜 Миссии</button>`));
+  const bs = sc.querySelectorAll('.grid2 button');
+  bs[0].onclick = () => go('museum', 'exchange');
+  bs[1].onclick = () => go('museum', 'missions');
+}
+
+function invRows(mode) {
+  const keys = Object.keys(S.inv).filter(k => (S.inv[k] || 0) > 0);
+  if (!keys.length) return '<div class="f11 dim mt6">Рюкзак пуст — иди копай.</div>';
+  keys.sort((a, b) => ITEMS[b].p - ITEMS[a].p);
+  return keys.map(k => {
+    const it = ITEMS[k], q = S.inv[k];
+    const rare = k === 'ruby' || k === 'sapphire' || k === 'diamond';
+    const val = sellValue(k) * q;
+    return `<div class="shopitem">
+      <div class="gem ${RARITY[it.r].cls}">${it.i}</div>
+      <div class="info"><div class="t">${it.n} <span class="f11 dim">×${q}</span></div>
+        <div class="d">${RARITY[it.r].n} · ${fmt(it.p)}🪙 за шт${rare ? ' · обмен на 💎' : ''}</div></div>
+      <div class="col" style="align-items:flex-end;gap:5px">
+        <div class="price">${fmt(val)} 🪙</div>
+        <div class="row" style="gap:5px">
+          <button class="btn sm ghost" onclick="donateOne('${k}',1)">В музей</button>
+          <button class="btn sm green" onclick="sellOne('${k}',1)">Продать</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function renderExchange(sc) {
+  sc.appendChild(el('div', 'between', `<div class="h1" style="margin:0">💎 Обмен редких</div>
+    <button class="btn sm ghost" onclick="go('museum')">← Назад</button>`));
+  sc.appendChild(el('div', 'hint mt10', 'Рубин, сапфир и алмаз — самые редкие камни. Их можно продать музею за монеты или обменять на донатную валюту.'));
+  for (const id in COIN_EXCHANGE) {
+    const it = ITEMS[id], q = S.inv[id] || 0;
+    sc.appendChild(el('div', 'shopitem', `
+      <div class="gem ${RARITY[it.r].cls}">${it.i}</div>
+      <div class="info"><div class="t">${it.n} <span class="f11 dim">×${q}</span></div>
+        <div class="d">Шанс выпадения: ${id === 'ruby' ? '5%' : id === 'sapphire' ? '1%' : '0.1%'}<br>Или продажа музею: ${fmt(it.p)}🪙</div></div>
+      <div class="col" style="align-items:flex-end;gap:5px">
+        <div class="price">${COIN_EXCHANGE[id]} 💎</div>
+        <button class="btn sm primary" ${q ? '' : 'disabled'} onclick="exchangeGem('${id}')">Обменять</button>
+      </div>`));
+  }
+  sc.appendChild(el('div', 'card mt10', `<div class="f12 b">Курс</div>
+    <div class="f11 dim mt6">♦️ Рубин = 1 💎 · 10 000 🪙<br>🔹 Сапфир = 5 💎 · 50 000 🪙<br>💎 Алмаз = 10 💎 · 100 000 🪙</div>`));
+}
+
+/* --- МИССИИ --- */
+function renderMissions(sc) {
+  sc.appendChild(el('div', 'between', `<div class="h1" style="margin:0">📜 Миссии</div>
+    <button class="btn sm ghost" onclick="go('museum')">← Назад</button>`));
+  sc.appendChild(el('div', 'hint mt10 mb0', 'Новые миссии каждые 6 часов. Награды растут с уровнем.'));
+  S.missions.forEach(m => {
+    const pct = clamp(m.prog / m.target * 100, 0, 100);
+    sc.appendChild(el('div', 'card mt10', `
+      <div class="between"><div class="f13 b">${m.text}</div>
+        <div class="chip">${fmt(m.prog)}/${fmt(m.target)}</div></div>
+      <div class="bar mt6"><i style="width:${pct}%"></i></div>
+      <div class="between mt6">
+        <div class="f11" style="color:#ffd76b">🎁 ${fmt(m.reward.coins)} 🪙 · ${m.reward.xp} xp${m.reward.donate ? ` · ${m.reward.donate} 💎` : ''}</div>
+        ${m.claimed ? '<div class="chip">✓ получено</div>'
+          : m.done ? `<button class="btn sm primary" onclick="claimMission('${m.id}')">Забрать</button>`
+          : '<div class="f11 dim">в процессе</div>'}
+      </div>`));
+  });
+  sc.appendChild(el('button', 'btn ghost wide mt10', '🔄 Обновить миссии', ''));
+  sc.querySelectorAll('button').forEach(b => {
+    if (b.textContent.includes('Обновить')) b.onclick = () => { genMissions(); toast('Миссии обновлены', 'good'); render(); };
+  });
+}
+
+/* --- МАГАЗИН --- */
+let SHOP_TAB = 'pick';
+function renderShop(sc) {
+  sc.appendChild(el('div', 'h1', `🛒 Магазин`));
+  const tabs = [
+    ['pick', '⛏️ Кирки'], ['gear', '⚔️ Оружие/броня'],
+    ['coin', '💎 Донат'], ['village', '🏘 Деревня']
+  ];
+  const t = el('div', 'tabs');
+  tabs.forEach(([id, n]) => {
+    const b = el('button', SHOP_TAB === id ? 'on' : '', n);
+    b.onclick = () => { SHOP_TAB = id; render(); };
+    t.appendChild(b);
+  });
+  sc.appendChild(t);
+
+  if (SHOP_TAB === 'pick') {
+    sc.appendChild(el('div', 'card', `
+      <div class="between"><div class="col"><div class="f11 dim">Текущая кирка</div>
+        <div class="f14 b">${myPick().i} ${myPick().n}</div>
+        <div class="f11 dim">Урон ${myPick().dmg} · бонус добычи x${myPick().bonus.toFixed(2)} · крит ${(myPick().crit * 100).toFixed(0)}%</div></div></div>`));
+    PICKS.forEach((p, i) => {
+      const owned = PICKS.findIndex(x => x.id === S.pick) >= i;
+      const isCur = S.pick === p.id;
+      const reqTxt = Object.keys(p.req).map(k => `${itemIcon(k)}${p.req[k]}`).join(' ') || '—';
+      sc.appendChild(el('div', 'shopitem' + (isCur ? ' owned' : ''), `
+        <div class="gem" style="font-size:20px">${p.i}</div>
+        <div class="info"><div class="t">${p.n}</div>
+          <div class="d">Урон ${p.dmg} · добыча x${p.bonus.toFixed(2)} · крит ${(p.crit * 100).toFixed(0)}%<br>Нужно: ${p.cost ? fmt(p.cost) + '🪙' : '—'} ${reqTxt}</div></div>
+        ${isCur ? '<div class="chip">сейчас</div>'
+          : owned ? '<div class="chip">✓</div>'
+          : (i === PICKS.findIndex(x => x.id === S.pick) + 1
+              ? `<button class="btn sm primary" onclick="upgradePick()">Улучшить</button>`
+              : '<div class="f11 dim" style="text-align:center">🔒</div>')}`));
+    });
+  }
+
+  if (SHOP_TAB === 'gear') {
+    GEAR.forEach(g => {
+      const owned = S.ownedGear.includes(g.id);
+      const eq = S.gear === g.id || S.armor === g.id;
+      sc.appendChild(el('div', 'shopitem' + (eq ? ' owned' : ''), `
+        <div class="gem" style="font-size:20px">${g.i}</div>
+        <div class="info"><div class="t">${g.n}</div>
+          <div class="d">${g.atk ? 'Атака +' + g.atk : 'Защита +' + g.def} · ${g.desc}</div></div>
+        <div class="col" style="align-items:flex-end;gap:5px">
+          <div class="price">${fmt(g.price)} 🪙</div>
+          <button class="btn sm ${eq ? 'ghost' : owned ? 'blue' : 'green'}" onclick="buyGear('${g.id}')">${eq ? 'Надето' : owned ? 'Надеть' : 'Купить'}</button>
+        </div>`));
+    });
+    sc.appendChild(el('div', 'card', `<div class="f12 b">Твой боевой профиль</div>
+      <div class="grid3 mt6">
+        <div class="center"><div class="f16 b">${myAtk()}</div><div class="f11 dim">Атака</div></div>
+        <div class="center"><div class="f16 b">${myDef()}</div><div class="f11 dim">Защита</div></div>
+        <div class="center"><div class="f16 b">${fmt(myHp())}</div><div class="f11 dim">Здоровье</div></div>
+      </div>`));
+  }
+
+  if (SHOP_TAB === 'coin') {
+    sc.appendChild(el('div', 'card', `<div class="between"><div class="col"><div class="f11 dim">Твой баланс</div>
+      <div class="f16 b" style="color:#ffd76b">💎 ${fmt(S.donate)} коинов</div></div>
+      <div class="f11 dim" style="text-align:right">1 💎 ≈ 10 ₽<br>≈ 50 ₸</div></div>`));
+    SHOP.forEach(g => {
+      const owned = S.ownedGear.includes(g.id);
+      const eq = S.gear === g.id || S.armor === g.id;
+      const stat = g.atk ? 'Атака +' + g.atk : g.def ? 'Защита +' + g.def : '';
+      sc.appendChild(el('div', 'shopitem' + (eq ? ' owned' : ''), `
+        <div class="gem" style="font-size:20px">${g.i}</div>
+        <div class="info"><div class="t">${g.n}</div><div class="d">${stat ? stat + ' · ' : ''}${g.desc}</div></div>
+        <div class="col" style="align-items:flex-end;gap:5px">
+          <div class="price">${g.price || g.coinPrice + ' 💎'}</div>
+          <button class="btn sm ${eq ? 'ghost' : 'purple'}" onclick="buyCoinItem('${g.id}')">
+            ${eq ? 'Надето' : owned ? 'Надеть' : 'Купить'}</button>
+        </div>`));
+    });
+  }
+
+  if (SHOP_TAB === 'village') {
+    sc.appendChild(el('div', 'card', `<div class="f13 b">🏘 Деревня торговцев</div>
+      <div class="hint mt6 mb0">NPC покупают и продают камни, оружие и броню. Появятся в следующем обновлении — здесь уже видно, как это будет работать.</div>`));
+    const npcs = [
+      { i: '🧙', n: 'Старик-ювелир', d: 'Скупает редкие камни дороже музея (+15%)' },
+      { i: '🧔', n: 'Кузнец Гурген', d: 'Продаёт мечи и броню, принимает железо и серебро' },
+      { i: '👩‍🌾', n: 'Торговка Ани', d: 'Меняет камни на энергию и эликсиры' }
+    ];
+    npcs.forEach(x => sc.appendChild(el('div', 'shopitem', `
+      <div class="gem" style="font-size:20px">${x.i}</div>
+      <div class="info"><div class="t">${x.n}</div><div class="d">${x.d}</div></div>
+      <div class="chip">скоро</div>`)));
+  }
+}
+
+/* --- АРЕНА --- */
+function renderArena(sc) {
+  ensureBots();
+  sc.appendChild(el('div', 'h1', `⚔️ Арена <small>${S.stats.wins}П / ${S.stats.losses}Пр</small>`));
+  sc.appendChild(el('div', 'card', `
+    <div class="between"><div class="col"><div class="f11 dim">Боевая мощь</div>
+      <div class="f14 b">${myAtk()} ⚔ · ${myDef()} 🛡 · ${fmt(myHp())} ❤</div></div>
+      <button class="btn sm ghost" onclick="go('shop');SHOP_TAB='gear';render()">Экипировка</button></div>`));
+
+  if (S.event && S.event.id === 'raid') sc.appendChild(el('div', 'card', `<div class="f12" style="color:#ffd76b">🏴‍☠️ Набег бандитов: трофеи x2!</div>`));
+
+  sc.appendChild(el('div', 'f13 b', 'Противники рядом'));
+  S.bots.slice(0, 6).forEach(b => {
+    const diff = b.level - S.level;
+    const tag = diff >= 4 ? 'опасен' : diff >= 1 ? 'сильнее' : diff >= -2 ? 'ровня' : 'слабак';
+    const col = diff >= 4 ? '#ff5f5f' : diff >= 1 ? '#ffc94a' : '#4bd66f';
+    sc.appendChild(el('div', 'shopitem mt10', `
+      <div class="gem" style="font-size:20px">${b.emoji}</div>
+      <div class="info"><div class="t">${b.n} <span class="f11" style="color:${col}">${tag}</span></div>
+        <div class="d">Ур. ${b.level} · ${b.atk}⚔ / ${b.def}🛡 · трофеи ~${fmt(b.loot)}🪙${b.gems ? ' · 💠 есть камни' : ''}</div></div>
+      <div class="col" style="gap:5px">
+        <button class="btn sm blue" onclick="fight('${b.id}','duel')">Дуэль</button>
+        <button class="btn sm red" onclick="fight('${b.id}','raid')">Набег</button>
+      </div>`));
+  });
+
+  sc.appendChild(el('div', 'card', `
+    <div class="between"><div class="col"><div class="f12 b">🏦 Схрон</div>
+      <div class="f11 dim">Спрятанные монеты нельзя отобрать в бою</div></div>
+      <div class="price">${fmt(S.vault || 0)} 🪙</div></div>
+    <div class="grid2 mt10">
+      <button class="btn sm ghost" onclick="stashAll()">Спрятать всё</button>
+      <button class="btn sm blue" onclick="unstash()" ${S.vault ? '' : 'disabled'}>Забрать из схрона</button>
+    </div>`));
+
+  sc.appendChild(el('div', 'grid2 mt10', `
+    <button class="btn ghost" onclick="go('arena','leaders')">🏆 Топ богачей</button>
+    <button class="btn ghost" onclick="go('arena','profile')">👤 Профиль</button>`));
+  const bs = sc.querySelectorAll('.grid2 button');
+  if (bs[0]) bs[0].onclick = () => go('arena', 'leaders');
+  if (bs[1]) bs[1].onclick = () => go('arena', 'profile');
+}
+
+/* --- ЛИДЕРЫ --- */
+function renderLeaders(sc) {
+  sc.appendChild(el('div', 'between', `<div class="h1" style="margin:0">🏆 Топ богачей</div>
+    <button class="btn sm ghost" onclick="SUB=null;render()">← Назад</button>`));
+  const list = leaderboard();
+  const box = el('div', 'card');
+  list.slice(0, 15).forEach((p, i) => {
+    box.appendChild(el('div', 'lb' + (p.me ? ' me' : ''), `
+      <div class="pos ${i === 0 ? 'p1' : i === 1 ? 'p2' : i === 2 ? 'p3' : ''}">${i === 0 ? '👑' : i + 1}</div>
+      <div class="nm">${esc(p.n)} <span class="f11 dim">ур.${p.level}</span></div>
+      <div class="vl">${fmt(p.v)}</div>`));
+  });
+  sc.appendChild(box);
+  sc.appendChild(el('div', 'hint', 'Богатство = монеты + коины×20 000 + доход с территорий. Захватывай земли и забирай редкие камни — в топе считают всё.'));
+}
+
+/* --- ПРОФИЛЬ --- */
+function renderProfile(sc) {
+  sc.appendChild(el('div', 'between', `<div class="h1" style="margin:0">👤 Профиль</div>
+    <button class="btn sm ghost" onclick="SUB=null;render()">← Назад</button>`));
+  const st = S.stats;
+  sc.appendChild(el('div', 'card center', `
+    <div class="ava" style="width:64px;height:64px;font-size:30px;margin:0 auto 8px">${S.photo ? `<img src="${S.photo}" style="width:100%;height:100%;border-radius:50%;object-fit:cover">` : '⛏️'}</div>
+    <div class="f16 b">${esc(S.name)}</div>
+    <div class="f12 dim">Ур. ${S.level} · ${levelTitle(S.level)}</div>
+    <div class="f11 dim mt6">${S.clan ? '🏰 ' + clanObj().n : 'Без клана'}</div>`));
+  sc.appendChild(el('div', 'grid2', `
+    <div class="card center"><div class="f16 b">${fmt(st.rocks)}</div><div class="f11 dim">Камней разбито</div></div>
+    <div class="card center"><div class="f16 b">${fmt(st.earned)}</div><div class="f11 dim">Заработано 🪙</div></div>
+    <div class="card center"><div class="f16 b">${st.wins}</div><div class="f11 dim">Побед</div></div>
+    <div class="card center"><div class="f16 b">${st.terWins}</div><div class="f11 dim">Территорий взято</div></div>`));
+  sc.appendChild(el('div', 'card', `
+    <div class="between"><div class="f12 b">Достижения</div></div>
+    <div class="sep"></div>
+    ${achRow('🥇 Первый камень', st.rocks >= 1)}
+    ${achRow('⛏️ 100 камней', st.rocks >= 100)}
+    ${achRow('💰 100 000 заработано', st.earned >= 100000)}
+    ${achRow('⚔️ 10 побед', st.wins >= 10)}
+    ${achRow('🏴 1 территория', st.terWins >= 1)}
+    ${achRow('💠 Нашёл алмаз', (S.museum.diamond + (S.inv.diamond || 0)) > 0)}`));
+  sc.appendChild(el('button', 'btn red wide', 'Сбросить прогресс'));
+  const rb = sc.querySelectorAll('button');
+  rb[rb.length - 1].onclick = () => {
+    showModal(`<div class="sh-head"><div><h3>Сбросить прогресс?</h3></div><button class="close" onclick="closeModal()">✕</button></div>
+      <div class="hint">Всё пропадёт: монеты, камни, кирка, шахты.</div>
+      <div class="grid2 mt10"><button class="btn ghost" onclick="closeModal()">Отмена</button>
+      <button class="btn red" onclick="hardReset()">Сбросить</button></div>`);
+  };
+}
+function achRow(t, ok) { return `<div class="between" style="padding:5px 0"><div class="f12 ${ok ? '' : 'dim'}">${t}</div><div class="chip" style="${ok ? 'color:#4bd66f;border-color:#3f8f4f' : ''}">${ok ? '✓' : '—'}</div></div>`; }
+function hardReset() { localStorage.removeItem(SAVE_KEY); location.reload(); }
+
+/* --- КЛАН / КАРТА --- */
+function renderClan(sc) {
+  sc.appendChild(el('div', 'h1', '🏰 Клан и территории'));
+  if (!S.clan) {
+    sc.appendChild(el('div', 'card', `<div class="f13 b">Выбери клан</div>
+      <div class="hint mt6">Клан даёт бонус и открывает войны за территории.</div>`));
+    CLANS.forEach(c => sc.appendChild(el('div', 'shopitem', `
+      <div class="gem" style="font-size:20px">${c.e}</div>
+      <div class="info"><div class="t">${c.n}</div><div class="d">Бонус: ${c.bonus}</div></div>
+      <button class="btn sm primary" onclick="joinClan('${c.id}')">Вступить</button>`)));
+    return;
+  }
+  const c = clanObj();
+  sc.appendChild(el('div', 'card', `
+    <div class="row"><div class="gem" style="font-size:20px">${c.e}</div>
+      <div class="col"><div class="f14 b">${c.n}</div><div class="f11 dim">Бонус: ${c.bonus}</div></div>
+      <div class="chip" style="margin-left:auto">${TERRITORIES.filter(t => S.territories[t.id] === 'me').length}/${TERRITORIES.length}</div></div>`));
+
+  sc.appendChild(el('div', 'card', `
+    <div class="between"><div class="f12 b">Доход с территорий</div><div class="price">${fmt(territoryIncomePerHour())} 🪙/час</div></div>`));
+
+  const map = el('div', 'map');
+  TERRITORIES.forEach(t => {
+    const mine = S.territories[t.id] === 'me';
+    sc.appendChild(el('div', 'shopitem', `
+      <div class="gem" style="font-size:20px">${t.i}</div>
+      <div class="info"><div class="t">${t.n}</div>
+        <div class="d">${fmt(t.income)}🪙/час · гарнизон ${t.garrison}</div></div>
+      ${mine ? '<div class="chip" style="color:#5ce27f;border-color:#3f8f4f">🏴 твоя</div>'
+        : `<button class="btn sm red" onclick="attackTerritory('${t.id}')">Захватить</button>`}`));
+  });
+
+  sc.appendChild(el('div', 'card mt10', `<div class="f12 b">🔔 Живая карта</div>
+    <div class="hint mt6 mb0">Другие кланы и одиночки постоянно делят жилы. Захваченные земли приносят монеты каждый час — это и есть «драка за ресурсы».</div>`));
+}
+
+/* ---------------- модалки / тосты / эффекты ---------------- */
+function showModal(html) {
+  const m = $('#modal');
+  m.className = 'modal';
+  m.innerHTML = `<div class="sheet">${html}</div>`;
+  m.onclick = e => { if (e.target === m) closeModal(); };
+}
+function closeModal() { $('#modal').className = 'modal hidden'; $('#modal').innerHTML = ''; }
+function toast(text, kind, ms) {
+  const box = $('#toasts');
+  const t = el('div', 'toast ' + (kind || ''), text);
+  box.appendChild(t);
+  while (box.children.length > 3) box.removeChild(box.firstChild);
+  setTimeout(() => { t.style.transition = 'opacity .3s'; t.style.opacity = '0'; setTimeout(() => t.remove(), 320); }, ms || 1800);
+}
+function fxHit(crit, dmg) {
+  const scene = document.querySelector('.scene');
+  if (!scene) return;
+  const f = el('div', 'floater', (crit ? '💥 ' : '') + Math.round(dmg));
+  if (crit) f.style.color = '#ffcf5c';
+  f.style.left = (46 + Math.random() * 14) + '%';
+  scene.appendChild(f);
+  setTimeout(() => f.remove(), 900);
+}
+function fxSpark(count, color) {
+  const scene = document.querySelector('.scene');
+  if (!scene) return;
+  for (let i = 0; i < count; i++) {
+    const sp = el('div', 'spark');
+    sp.style.background = color;
+    sp.style.left = (44 + Math.random() * 12) + '%';
+    sp.style.top = '46%';
+    sp.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+    sp.style.setProperty('--dy', (-30 - Math.random() * 80) + 'px');
+    sp.style.animation = 'sparkOut .7s ease-out forwards';
+    scene.appendChild(sp);
+    setTimeout(() => sp.remove(), 750);
+  }
+}
+function fxShake() {
+  const scene = document.querySelector('.scene');
+  if (!scene) return;
+  scene.classList.add('shake');
+  setTimeout(() => scene.classList.remove('shake'), 200);
+}
+function fxLucky(id) {
+  if (!id) return;
+  const scene = document.querySelector('.scene');
+  if (!scene) return;
+  const f = el('div', 'floater', itemIcon(id) + ' ' + itemName(id).toUpperCase());
+  f.style.color = '#9fe8ff'; f.style.top = '18%'; f.style.fontSize = '15px';
+  scene.appendChild(f);
+  setTimeout(() => f.remove(), 1400);
+}
+
+/* ---------------- обучение ---------------- */
+function showTutorial() {
+  showModal(`<div class="sh-head"><div><h3>⛏️ Музей камней</h3>
+      <div class="f11 dim">Добро пожаловать в копи, ${esc(S.name.split(' ')[0])}!</div></div>
+      <button class="close" onclick="closeModal()">✕</button></div>
+    <div class="tut">
+      <div class="step"><div class="n">1</div><div><b>Копай.</b> Жми «КОПАТЬ» — камень трескается, из него падают камни и монеты. Энергия восстанавливается сама (+25/мин).</div></div>
+      <div class="step"><div class="n">2</div><div><b>Сдавай.</b> Музей выкупает камни. Часть можно оставить в экспозиции — она приносит монеты каждый час, даже когда ты офлайн.</div></div>
+      <div class="step"><div class="n">3</div><div><b>Улучшай кирку</b> и открывай новые шахты — там дороже камни и выше шанс на рубин, сапфир и алмаз.</div></div>
+      <div class="step"><div class="n">4</div><div><b>Дерись.</b> На арене отбивай монеты и редкие камни. Прибыль прячь в 🏦 схрон, чтобы не отобрали.</div></div>
+      <div class="step"><div class="n">5</div><div><b>Клан и территории.</b> Захватывай земли — они дают доход каждый час и поднимают тебя в топе богачей.</div></div>
+    </div>
+    <button class="btn primary wide mt10" onclick="closeModal();GM.s.tutDone=true;GM.save()">Погнали копать!</button>`);
+}
+
+/* ---------------- оффлайн-доход ---------------- */
+function applyOffline() {
+  const dt = (now() - (S.lastSeen || now())) / 1000;
+  if (dt < 60) return;
+  const hours = Math.min(dt / 3600, 8);
+  const inc = Math.floor(museumIncomePerHour() * hours + territoryIncomePerHour() * hours);
+  const en = Math.min(S.energyMax, S.energy + (dt * ENERGY_PER_SEC));
+  S.energy = en;
+  if (inc > 0) {
+    S.coins += inc;
+    setTimeout(() => toast(`🌙 Пока тебя не было: +${fmt(inc)} 🪙 пассивного дохода`, 'gold', 3200), 600);
+  }
+  S.lastSeen = now();
+}
+
+/* ---------------- запуск ---------------- */
+function boot() {
+  S = load() || DEFAULTS();
+  if (!S.bots || !S.bots.length) S.bots = makeBots();
+  initTelegram();
+  applyOffline();
+  genMissions();
+  checkMissionProgress();
+  regenEnergy();
+  render();
+  save();
+  if (!S.tutDone) setTimeout(showTutorial, 500);
+  setInterval(() => {
+    if (document.hidden) return;
+    regenEnergy();
+    if (TAB === 'mine' || !SUB) renderHeader();
+    if (S.event && now() > S.event.until) { S.event = null; render(); }
+  }, 1000);
+  setInterval(save, 5000);
+  document.addEventListener('visibilitychange', () => { if (!document.hidden) { applyOffline(); render(); } });
+}
+/* отладочный API: доступ к состоянию из консоли/тестов */
+window.GM = {
+  get s() { return S; }, set s(v) { S = v; },
+  get tab() { return TAB; }, set tab(v) { TAB = v; },
+  get sub() { return SUB; }, set sub(v) { SUB = v; },
+  get shopTab() { return SHOP_TAB; }, set shopTab(v) { SHOP_TAB = v; },
+  data: { ITEMS, MINES, PICKS, SHOP, GEAR, TERRITORIES },
+  save, load, render
+};
+
+document.addEventListener('DOMContentLoaded', () => { boot(); window.__GM_READY = true; });
+</script>
+<script type="module" src="https://static.cloudflareinsights.com/beacon.min.js/vce701823e78c4301a35b7e07294d87301792088814092" integrity="sha512-UKNk8GbxkABxKcXYuLkO16EleLGUkcvJWtpSNmExE0Too3ZaFAxTscNWEc1OdAv5/BikHawapSCaiD2XCmp+Bw==" data-cf-beacon='{"version":"2024.11.0","token":"1954b47c125f43f8b4338b3c4f804e4f","spa":2}' crossorigin="anonymous"></script>
+<script>(function(){function c(){var b=a.contentDocument||(a.contentWindow&&a.contentWindow.document);if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'a5a7f664aeb5fb7e',t:'MTc5NDY3OTcxNg=='};var l=window.parent.location,o;try{o=new URL(l.origin).origin}catch(e){try{o=new URL(new URL(l.href).origin).origin}catch(e){o=''}}var u='/cdn-cgi/challenge-platform/scripts/jsd/main.js?ray=a5a7f664aeb5fb7e',a=document.createElement('script');a.src=o?new URL(u,o).href:u;document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
